@@ -1,10 +1,16 @@
 <script setup>
     import gameStore from '@/stores/gameStore'
 
+/*
+Wordle 311 2/6
+⬜⬜🟨🟨⬜
+🟩🟩🟩🟩🟩
+*/
+
     const share = async () => {
         const shareData = {
             title: 'Cluedl',
-            text: gameStore.state.shareText,
+            text: gameStore.state.shareText, // 🟩
             url: 'https://cluedl.com'
         }        
         try {

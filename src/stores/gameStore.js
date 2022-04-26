@@ -1,5 +1,4 @@
 import { reactive } from "vue"
-import words from '@/assets/five-letter-words.json'
 import hints from '@/assets/hints.json'
 import '@/helpers/date'
 
@@ -58,7 +57,15 @@ const gameStore = {
                 obj.s = this.getKeyState(obj.ltr)
             })
         })
-    },    
+    },  
+    getShareText() {
+        // nope (n), wrong (w), correct (c)
+        const cellChars = {
+            n: '⬜',
+            w: '🟨',
+            c: '🟩'
+        }
+    },
     restoreSavedState() {
         const today = (new Date()).toIsoShort()
         const currentDate = this.state.dateIsoShort
@@ -113,7 +120,7 @@ const gameStore = {
     },
     getKeyState(ltr) {
         if (!ltr) return ``
-        const states = ['c','w','n']
+        const states = ['c','w','n'] // nope, wrong, correct
         for(var i = 0; i < states.length; i++) {
             const s = states[i]
             const exists = this.state.grid.some(arr => arr.some(cell => cell.ltr == ltr && cell.s == s))
