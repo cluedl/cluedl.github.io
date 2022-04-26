@@ -7,6 +7,7 @@ import wordService from '@/services/wordService.js'
 const ws = new wordService()
 
 const launchDate = new Date(`03/29/2022`)
+const lsKeyPrefix = `v2_`
 
 const origGrid = [ 
     [{ltr:``,s:``},{ltr:``,s:``},{ltr:``,s:``},{ltr:``,s:``},{ltr:``,s:``}],
@@ -62,24 +63,27 @@ const gameStore = {
         const today = (new Date()).toIsoShort()
         const currentDate = this.state.dateIsoShort
         if (today == currentDate) {
-            const gridLsKey = `${today}_grid`
-            const allLettersLsKey = `${today}_allLetters`
+            const currRowIdxLsKey = `${lsKeyPrefix}${today}_currRowIdx`
+            const gridLsKey = `${lsKeyPrefix}${today}_grid`
+            const allLettersLsKey = `${lsKeyPrefix}${today}_allLetters`
             const grid = localStorage.getItem(gridLsKey) && JSON.parse(localStorage.getItem(gridLsKey))
             const allLetters = localStorage.getItem(allLettersLsKey) && JSON.parse(localStorage.getItem(allLettersLsKey))
+            const currRowIdx = localStorage.getItem(currRowIdxLsKey) && parseInt(localStorage.getItem(currRowIdxLsKey))
             if (!grid || !allLetters) return // no saved state yet (user hasn't submitted a row for today)
             this.state.grid = grid
             this.state.allLetters = allLetters
+            this.state.currentRowIdx = currRowIdx
         } else {
             this.state.grid = origGrid
             this.state.allLetters = origAllLetters
+            this.state.currRowIdx = 0
         }
     },
     clearOldSavedStates() {
         const today = (new Date()).toIsoShort()
-        // clear old localStorage entries
         for(const key in localStorage) {
-            if (key.endsWith("_grid") || key.endsWith("_allLetters")) {
-                if (today !== key.split('_')[0]) {
+            if (key.startsWith(lsKeyPrefix)) {
+                if (today !== key.split('_')[1]) {
                     localStorage.removeItem(key)
                 }
             }
@@ -141,6 +145,7 @@ const gameStore = {
                 return `That is not a word`
             }
             else if (err.newRow) {
+                // not a match, but the word is a valid word
                 this.state.grid[this.state.currentRowIdx] = err.newRow
                 this.state.currentRowIdx += 1
                 this.state.currentColIdx = 0
@@ -151,8 +156,9 @@ const gameStore = {
                 const currentDate = this.state.dateIsoShort
                 
                 if (today == currentDate) {
-                    localStorage.setItem(`${today}_grid`,JSON.stringify(this.state.grid))
-                    localStorage.setItem(`${today}_allLetters`,JSON.stringify(this.state.allLetters))
+                    localStorage.setItem(`${lsKeyPrefix}${today}_currRowIdx`,this.state.currentRowIdx)
+                    localStorage.setItem(`${lsKeyPrefix}${today}_grid`,JSON.stringify(this.state.grid))
+                    localStorage.setItem(`${lsKeyPrefix}${today}_allLetters`,JSON.stringify(this.state.allLetters))
                 }
 
                 return `Next`
