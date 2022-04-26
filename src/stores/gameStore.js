@@ -47,7 +47,9 @@ const gameStore = {
         currentColIdx: 0,
         grid: origGrid,
         allLetters: origAllLetters,        
-        invalidWordRowIdx: -1
+        invalidWordRowIdx: -1,
+        shareable: false,
+        shareText: ``
     }),
     refreshLetterStates() {
         Object.keys(this.state.allLetters).forEach(k => {
@@ -127,6 +129,9 @@ const gameStore = {
         try {
             const res = ws.submit(word,this.state.answer) // success
             this.state.grid[this.state.currentRowIdx].map(c => c.s = `c`)
+            this.state.shareable = true
+            const numTries = this.state.currentRowIdx + 1
+            this.state.shareText = `Took me ${numTries} tr${numTries == 1 ? 'y' : 'ies'}!`
             return `Success`
         } catch (err) {
             if (err.msg) {

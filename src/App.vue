@@ -6,6 +6,7 @@ import Keyboard from './components/Keyboard.vue'
 import Grid from './components/Grid.vue'
 import DateSwitcher from './components/DateSwitcher.vue'
 import Hint from './components/Hint.vue'
+import Share from './components/Share.vue'
 import gameStore from '@/stores/gameStore'
 import { ref } from 'vue'
 
@@ -20,7 +21,7 @@ const keyboard = ref(null)
             <Grid />
         </div>
         <div class="controls mt-25">
-            <div></div>
+            <Share />
             <!-- <div></div> -->
             <DateSwitcher class="ta-c" />
             <Hint />
