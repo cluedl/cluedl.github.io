@@ -1,6 +1,4 @@
 <script setup>
-// next: restore state for keyboard! colors are not persisting on keys ATM when toggling dates.
-
 import 'animate.css'
 import Keyboard from './components/Keyboard.vue'
 import Grid from './components/Grid.vue'
@@ -10,12 +8,13 @@ import Share from './components/Share.vue'
 import gameStore from '@/stores/gameStore'
 import { ref } from 'vue'
 
-gameStore.load()
+const v = ref('2')
 
-const keyboard = ref(null)
+gameStore.load()
 </script>
 
 <template>
+    <span class="version">{{v}}</span>
     <div class="main">
         <div class="mt-50 mt-20_m">
             <Grid />
@@ -38,6 +37,8 @@ const keyboard = ref(null)
 
 #app {
 }
+
+.version { position: fixed; top: 0; right: 0; color: #696969; }
 
 .controls { font-size: 18px; display:grid; grid-template-columns: 1fr 1fr 1fr; }
 
