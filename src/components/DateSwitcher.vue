@@ -2,13 +2,14 @@
 import { computed, reactive } from 'vue'
 import wordSvc from '@/services/wordService'
 import gameStore from '@/stores/gameStore'
+import utils from '@/helpers/utils'
 import '@/helpers/date'
 
 const sharedGameState = gameStore.state
 
 const state = reactive({
     daysOffset: 0,
-    nextSuffix: `_gray`,
+    nextSuffix: utils.devMode ? `` : `_gray`,
     prevSuffix: ``
 })
 
@@ -27,8 +28,7 @@ const go = (direction) => {
     state.daysOffset += direction
     const today = new Date()
     var newDate = today.addDays(state.daysOffset)
-    //if (state.daysOffset)
-    if (state.daysOffset == 0) {
+    if (state.daysOffset == 0 && !utils.devMode) {
         state.nextSuffix = `_gray`
     } else {
         state.nextSuffix = ``

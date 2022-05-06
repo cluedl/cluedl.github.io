@@ -7,11 +7,12 @@ import Hint from './components/Hint.vue'
 import Share from './components/Share.vue'
 import Settings from './components/Settings.vue'
 import gameStore from '@/stores/gameStore'
+import utils from '@/helpers/utils'
 import { ref } from 'vue'
 
 const v = ref('2')
 const devLsKey = "devMode"
-const devMode = localStorage.getItem(devLsKey)
+const devMode = utils.devMode
 const view = ref('site')
 
 // determine view
