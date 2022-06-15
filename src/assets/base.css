@@ -12,6 +12,24 @@
 .ta-r { text-align: right; }
 .ta-c { text-align: center; }
 
+/* flex etc */
+.d-flex { display: flex; }
+.d-grid { display: grid; }
+.d-none { display: none; }
+.ai-c { align-items: center; }
+.jc-c { justify-content: center; }
+.gap { gap: var(--gap); }
+
+/* var style hacks */
+.mt { margin-top: var(--mt); }
+.mb { margin-bottom: var(--mb); }
+.ml { margin-left: var(--ml); }
+.mr { margin-right: var(--mr); }
+.pt { padding-top: var(--pt); }
+.pb { padding-bottom: var(--pb); }
+.pl { padding-left: var(--pl); }
+.pr { padding-right: var(--pr); }
+
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
   --vt-c-white: #ffffff;

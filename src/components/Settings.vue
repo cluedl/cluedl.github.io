@@ -3,14 +3,28 @@ import { ref, onMounted } from 'vue'
 
 let modal = null
 
+const props = defineProps({
+  modelValue: String
+})
+const emit = defineEmits(['update:modelValue'])
+
 const isAdmin = ref(false)
 
+// emit('update:modelValue', value)
+
 onMounted(() => {
-    modal = document.getElementById("modal");
+    modal = document.getElementById("modal")
+    isAdmin.value = props.modelValue == 'admin'
 })
 
 const displayModal = () => {
+    alert('clicked')
     modal.showModal()
+}
+
+const onAdminChanged = () => {
+    emit('update:modelValue', isAdmin.value ? 'admin' : 'site')
+    modal.close()
 }
 
 const closeModal = (e) => {
@@ -25,10 +39,9 @@ const closeModal = (e) => {
         <img src="/icons8-settings.svg" width="38" height="38" />
     </div>
     <dialog class="modal" id="modal" @click="closeModal" data-close-modal-on-click="true">
-        <div class="text-lg">hello there</div>
         <div class="inner">
             <div class="adminContainer">
-                <input type="checkbox" id="admin" v-model="isAdmin" /><label for="admin">{{isAdmin}}</label>
+                <input type="checkbox" @change="onAdminChanged" id="admin" v-model="isAdmin" /><label for="admin">Admin mode</label>
             </div>
         </div>
     </dialog>
@@ -43,20 +56,20 @@ const closeModal = (e) => {
 }
 
 .adminContainer {
-    display: flex;
+    display: flex; align-items: center; gap: 10px;
 }
+.adminContainer input { width: 20px; height: 20px; }
 
 dialog {
     background-color: #222831;
     color: #f9ffee;
     border: none;
-    padding: 2rem;
     border-radius: 5px;
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.1), 0 0 10px rgba(0, 0, 0, 0.25);
     padding:0;
 
     position: fixed;
-    top: 50%;
+    top: 10%;
     left: 50%;
     transform: translate(-50%, -50%);
 }

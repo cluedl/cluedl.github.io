@@ -1,41 +1,43 @@
 <script setup>
 import 'animate.css'
-import Keyboard from './components/Keyboard.vue'
-import Grid from './components/Grid.vue'
-import DateSwitcher from './components/DateSwitcher.vue'
-import Hint from './components/Hint.vue'
-import Share from './components/Share.vue'
-import Settings from './components/Settings.vue'
+import Keyboard from '@/components/Keyboard.vue'
+import Grid from '@/components/Grid.vue'
+import DateSwitcher from '@/components/DateSwitcher.vue'
+import Hint from '@/components/Hint.vue'
+import Share from '@/components/Share.vue'
+import Settings from '@/components/Settings.vue'
+import Admin from '@/components/Admin.vue'
 import gameStore from '@/stores/gameStore'
 import utils from '@/helpers/utils'
 import { ref } from 'vue'
 
+const queryStr = document.location.search
+
 const v = ref('2')
 const devLsKey = "devMode"
+const view = ref(queryStr == '?admin' ? 'admin' : 'site')
 const devMode = utils.devMode
-const view = ref('site')
 
 // determine view
-const queryStr = document.location.search
-if (queryStr == '?dev' || queryStr == '?dev-mode' || queryStr == "?devMode") {
-    localStorage.setItem(devLsKey, "true")
-    window.location = document.URL.split('?')[0]
-}
-if (queryStr == '?noDev' || queryStr == "?nodev" || queryStr == "?no-dev" || queryStr == "?no-dev-mode" || queryStr == "?noDevMode") {
-    localStorage.removeItem(devLsKey)
-    window.location = document.URL.split('?')[0]
-}
+// if (queryStr == '?dev' || queryStr == '?dev-mode' || queryStr == "?devMode") {
+//     localStorage.setItem(devLsKey, "true")
+//     window.location = document.URL.split('?')[0]
+// }
+// if (queryStr == '?noDev' || queryStr == "?nodev" || queryStr == "?no-dev" || queryStr == "?no-dev-mode" || queryStr == "?noDevMode") {
+//     localStorage.removeItem(devLsKey)
+//     window.location = document.URL.split('?')[0]
+// }
 
 gameStore.load()
 </script>
 
 <template>
-    <Settings v-if="devMode"></Settings>
+    <!-- <Settings v-if="devMode" v-model="view"></Settings> -->
 
     <div class="admin" v-if="view == 'admin'">
-        Admin
+        <Admin />
     </div>
-    <div class="main" v-if="view=='site'">
+    <div class="main" v-if="view == 'site'">
         <div class="mt-50 mt-20_m">
             <Grid />
         </div>
