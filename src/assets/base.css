@@ -1,4 +1,12 @@
 /* shortcuts */
+.mt { margin-top: var(--mt); }
+.ml { margin-left: var(--ml); }
+.mr { margin-right: var(--mr); }
+.mb { margin-bottom: var(--mb); }
+.pt { padding-top: var(--pt); }
+.pl { padding-left: var(--pl); }
+.pr { padding-right: var(--pr); }
+.pb { padding-bottom: var(--pb); }
 .mt-25 { margin-top:25px; }
 .mt-50 { margin-top:50px; }
 .ta-r { text-align: right; }
