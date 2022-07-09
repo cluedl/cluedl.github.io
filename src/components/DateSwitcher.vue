@@ -1,5 +1,5 @@
 <script setup>
-import { computed, reactive } from 'vue'
+import { computed, reactive, onMounted } from 'vue'
 import wordSvc from '@/services/wordService'
 import gameStore from '@/stores/gameStore'
 import utils from '@/helpers/utils'
@@ -21,12 +21,17 @@ const isPrev = computed(() => {
     return true
 })
 
-const go = (direction) => {
+document.addEventListener("onkeydown", (e) => {
+    console.log(`dateswitcher:${e.key}`)
+})
+
+const go = async (direction) => {
     if (direction == 1 && state.nextSuffix == `_gray`) return
     if (direction == -1 && state.prevSuffix == '_gray') return
 
     state.daysOffset += direction
     const today = new Date()
+
     var newDate = today.addDays(state.daysOffset)
     if (state.daysOffset == 0 && !utils.devMode) {
         state.nextSuffix = `_gray`
@@ -47,7 +52,7 @@ const go = (direction) => {
     try {
         //window.confetti.clear()
     } catch(err) {}
-    gameStore.load()
+    await gameStore.load()
 }
 
 const ws = new wordSvc()

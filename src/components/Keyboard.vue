@@ -39,20 +39,25 @@ const reset = () => {
     console.log('reset from keyboard')
 }
 
-document.onkeydown = function(e) {
-    if (e.key === 'Enter' || e.key === 'Backspace') {
-        enterKey(e.key)
-        return
-    }
+document.addEventListener("onkeydown", (e) => {
+    console.log(`keyboard:${e.key}`)
+})
 
-    // not a regular letter, so do nothing
-    var alphabet = 'abcdefghijklmnopqrstuvwxyz'.split(``)
-    if (!alphabet.includes(e.key))
-        return
+// document.onkeydown = function(e) {
+//     console.log(`keyboard:${e.key}`)
+//     if (e.key === 'Enter' || e.key === 'Backspace') {
+//         enterKey(e.key)
+//         return
+//     }
 
-    // normal letter
-    enterKey(e.key)
-}
+//     // not a regular letter, so do nothing
+//     var alphabet = 'abcdefghijklmnopqrstuvwxyz'.split(``)
+//     if (!alphabet.includes(e.key))
+//         return
+
+//     // normal letter
+//     enterKey(e.key)
+// }
 </script>
 
 <template>

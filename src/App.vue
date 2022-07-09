@@ -9,7 +9,7 @@ import Settings from '@/components/Settings.vue'
 import Admin from '@/components/Admin.vue'
 import gameStore from '@/stores/gameStore'
 import utils from '@/helpers/utils'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const queryStr = document.location.search
 
@@ -17,6 +17,10 @@ const v = ref('2')
 const devLsKey = "devMode"
 const view = ref(queryStr == '?admin' ? 'admin' : 'site')
 const devMode = utils.devMode
+
+onMounted(async () => {
+    await gameStore.load()
+})
 
 // determine view
 // if (queryStr == '?dev' || queryStr == '?dev-mode' || queryStr == "?devMode") {
@@ -28,12 +32,9 @@ const devMode = utils.devMode
 //     window.location = document.URL.split('?')[0]
 // }
 
-gameStore.load()
 </script>
 
 <template>
-    <!-- <Settings v-if="devMode" v-model="view"></Settings> -->
-
     <div class="admin" v-if="view == 'admin'">
         <Admin />
     </div>

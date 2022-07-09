@@ -1,5 +1,4 @@
 import { reactive } from "vue"
-import hints from '@/assets/hints.json'
 import '@/helpers/date'
 
 import wordService from '@/services/wordService.js'
@@ -24,18 +23,24 @@ const origAllLetters = {
 }
 
 const gameStore = {
-    load() {
+    async load() {
+        await this.importHints()
         var date = this.state.date
         date.setHours(0,0,0,0) // to midnight
         const oneDay = 24 * 60 * 60 * 1000 // hours*minutes*seconds*milliseconds
         const diffDays = Math.round(Math.abs((launchDate - date) / oneDay))
-        this.state.answer = Object.keys(hints)[diffDays]
-        this.state.hint = hints[this.state.answer]
+        this.state.answer = Object.keys(this.state.hints)[diffDays]
+        this.state.hint = this.state.hints[this.state.answer]
         this.resetGrid()
         this.resetKeyboard()
         this.restoreSavedState()
         this.clearOldSavedStates()
         this.refreshLetterStates()
+    },
+    async importHints() {
+        const res = await fetch(`https://api.github.com/repos/cluedl/cluedl.github.io/contents/hints.json`)
+        const json = await res.json()
+        this.state.hints = JSON.parse(atob(json.content))
     },
     state: reactive({
         dateLabel: `Today`,
@@ -49,7 +54,8 @@ const gameStore = {
         allLetters: origAllLetters,        
         invalidWordRowIdx: -1,
         shareable: false,
-        shareText: ``
+        shareText: ``,
+        hints: []
     }),
     refreshLetterStates() {
         Object.keys(this.state.allLetters).forEach(k => {
