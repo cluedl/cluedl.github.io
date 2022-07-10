@@ -9,7 +9,7 @@ import path from 'path'
 export default defineConfig({
   plugins: [vue()],
   build: {
-    outDir: path.join(__dirname, "docs")
+    outDir: path.join(__dirname, "dist")
   },  
   resolve: {
     alias: {
